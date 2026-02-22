@@ -5,8 +5,9 @@ Product Service (Port 3001)
 Gateway Service (Port 3003)
 My task is to containerize these services and orchestrate them using Docker Compose.
 
-File structure 
 ```
+File structure 
+
 ├── user-service/
 │   └── Dockerfile
 ├── product-service/
