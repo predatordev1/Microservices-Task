@@ -13,13 +13,20 @@
 ---
 
 # Create Kubernetes Deployment manifests for all services
-User Service deployment
-Product Service deployment
-Order Service deployment
-Gateway Service deployment  (includes additional proxy handling setup if required)
+``` bash
 Each deployment included:
 Correct container image reference
 Resource limits and requests
 Environment variables
 Liveness and readiness probes
 Proper labels and selectors
+```
+
+User Service deployment
+
+Product Service deployment
+
+Order Service deployment
+
+Gateway Service deployment  (includes additional proxy handling setup if required)
+
