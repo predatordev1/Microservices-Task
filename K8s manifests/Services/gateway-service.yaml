@@ -4,9 +4,10 @@ metadata:
   name: gateway-service
   namespace: microservices
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: gateway
   ports:
     - port: 3003
       targetPort: 3003
+      nodePort: 30003

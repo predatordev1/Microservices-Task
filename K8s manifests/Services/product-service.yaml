@@ -4,9 +4,10 @@ metadata:
   name: product-service
   namespace: microservices
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: product
   ports:
     - port: 3001
       targetPort: 3001
+      nodePort: 30001

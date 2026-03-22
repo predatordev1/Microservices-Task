@@ -25,8 +25,7 @@ spec:
         ports:
           - containerPort: 3001
         livenessProbe:
-          httpGet:
-            path: /api/health
+          tcpSocket:
             port: 3001
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -34,8 +33,7 @@ spec:
           successThreshold: 1
           failureThreshold: 3
         readinessProbe:
-          httpGet:
-            path: /api/health
+          tcpSocket:
             port: 3001
           initialDelaySeconds: 5
           periodSeconds: 10

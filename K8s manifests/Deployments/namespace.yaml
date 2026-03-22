@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: microservices-task
+  name: microservices
   labels:
-    app: microservices-task
+    app: microservices
     env: Dev
 

@@ -4,9 +4,10 @@ metadata:
   name: user-service
   namespace: microservices
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: user
   ports:
     - port: 3000
       targetPort: 3000
+      nodePort: 30000
