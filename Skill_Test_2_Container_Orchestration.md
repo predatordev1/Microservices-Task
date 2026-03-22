@@ -1,16 +1,89 @@
 <h1>Assignment | Skill Test 2 _ Container Orchestration</h1>
 <h2>Objective: <h3>Deploy a microservices application on Kubernetes using Minikube, ensuring proper service communication and configuration.</h3></h2>
 
+```
+File structure 
+
+.
+├── K8s manifests
+│   ├── Deployments
+│   │   ├── gateway-deployments.yaml
+│   │   ├── namespace.yaml
+│   │   ├── order-deployment.yaml
+│   │   ├── product-deployment.yaml
+│   │   └── user-deployment.yaml
+│   └── Services
+│       ├── gateway-service.yaml
+│       ├── order-service.yaml
+│       ├── product-service.yaml
+│       └── user-service.yaml
+├── LICENSE
+├── Microservices
+│   ├── docker-compose.yml
+│   ├── gateway-service
+│   │   ├── app.js
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── order-service
+│   │   ├── app.js
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── product-service
+│   │   ├── app.js
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── README.md
+│   └── user-service
+│       ├── app.js
+│       ├── Dockerfile
+│       └── package.json
+├── README.md
+
+```
+---
+
 ## Architecture
 
-| Service | Port | Description |
+| Service | Port |  |
 | --- | --- | --- |
-| `User Service` | 3000 | User authentication, registration, JWT issuance |
-| `Product Service` | 3001 | Video catalogue, S3 playback endpoints, public APIs |
-| `Order Service` | 3002 | Dedicated admin microservice for asset management and uploads |
-| `Gateway Service` | 3003 | Websocket + REST chat for live watch parties |
+| `User Service` | 3000 |
+| `Product Service` | 3001|
+| `Order Service` | 3002 | 
+| `Gateway Service` | 3003 | 
 
 ---
+
+# Dockerfile Creation
+<h3>Docker filers are creatred and pushed to Github repo.</h3>
+<img width="398" height="642" alt="image" src="https://github.com/user-attachments/assets/7bd4453f-584b-45a2-a94f-6a17d7cdae01" />
+<img width="702" height="435" alt="image" src="https://github.com/user-attachments/assets/e9bc6a65-8dad-4eb0-8858-a5830e630f66" />
+<img width="587" height="445" alt="image" src="https://github.com/user-attachments/assets/47df2790-e52d-4ded-9855-865a53a64c70" />
+<img width="657" height="450" alt="image" src="https://github.com/user-attachments/assets/58e0b272-07b0-45a1-9f30-ea5e7553eedd" />
+
+# Docker Compose Configuration
+<h3>Docker filers are creatred and pushed to Github repo.</h3>
+<img width="778" height="907" alt="image" src="https://github.com/user-attachments/assets/38e952ea-ce7e-4a55-90ed-902b7975794b" />
+
+# Docker Images creation,tagging and pushing to Dockerhub.
+``` bash
+__Docker Images creation__
+docker compose build
+docker images
+
+__Docker Images creation__
+docker tag  microservices-gateway-service:latest dev8182/dockerfiles:microservice-gateway-V0.1
+docker tag microservices-order-service:latest dev8182/dockerfiles:microservice-order-v0.1
+docker tag microservices-product-service:latest dev8182/dockerfiles:microservice-product-v0.1
+docker tag microservices-user-service:latest dev8182/dockerfiles:microservice-user-v0.1
+
+__Docker Images Pushing into Docker Hub__
+docker push dev8182/dockerfiles:microservice-gateway-V0.1
+docker push dev8182/dockerfiles:microservice-order-V0.1
+docker push dev8182/dockerfiles:microservice-order-v0.1
+docker push dev8182/dockerfiles:microservice-product-v0.1
+docker push dev8182/dockerfiles:microservice-user-v0.1
+
+```
 
 # Create Kubernetes Deployment manifests for all services
 ``` bash
@@ -71,8 +144,48 @@ kubectl apply -f user-service.yaml
 ### All Services and deployments are healty 
 <img width="1056" height="425" alt="image" src="https://github.com/user-attachments/assets/9a5f08bd-b20c-46b5-9bd1-450e17240eee" />
 
+---
 
+# Troubleshooting
+### Issue 1: Pods was crashing after containers creation due to HTTP probe failed: 404 error.
+<img width="1467" height="572" alt="image" src="https://github.com/user-attachments/assets/f3a50682-bd39-4c92-a1c5-7bfbcc6cb143" />
 
+  Solu: Made changes in Deployment file as per below. After changes all PODS become healty and stable.
+  ``` bash
+  FROM 
+  httpGet:
+    path: /api/health
+
+  with
+    tcpSocket:
+
+```
+<img width="1056" height="425" alt="image" src="https://github.com/user-attachments/assets/9a5f08bd-b20c-46b5-9bd1-450e17240eee" />
+
+### Issue 2: Aftre all pods abd services were healty but still was not able to access to Services.
+<img width="1022" height="813" alt="image" src="https://github.com/user-attachments/assets/0de0fd40-470a-4d00-a7e6-644ffa8dbc42" />
+
+Solu: Made changes in Service file as per below. After changes all Services are accessable.
+  ``` bash
+  FROM 
+  type: ClusterIP
+
+  with
+  type: NodePort
+
+  
+   ```
+ also added Default node port for all services based on main service ports as
+| Service | Node Port |  |
+| --- | --- | --- |
+| `User Service` | 30000 |
+| `Product Service` | 30001|
+| `Order Service` | 30002 | 
+| `Gateway Service` | 30003 | 
+
+<img width="832" height="381" alt="image" src="https://github.com/user-attachments/assets/4663eb91-ff28-4ff0-89c0-29be9cce95ee" />
+<img width="907" height="407" alt="image" src="https://github.com/user-attachments/assets/c3cfd306-ee12-43ca-8593-61995898aab5" />
+<img width="871" height="247" alt="image" src="https://github.com/user-attachments/assets/7e09ca38-43b8-482f-87d5-bf38593df3a9" />
 
 
 
