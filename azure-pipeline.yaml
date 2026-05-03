@@ -1,0 +1,21 @@
+trigger:
+  - main
+
+pool:
+  - VmImage: ubuntu-latest
+
+stages:
+  - stage: Deployment 
+    displayName: Deploying docker image
+    jobs:
+      - job: Deployment
+        displayName: Docker file deployment
+        pool:
+          vmImage: ubuntu-latest 
+        steps:
+          - task: DockerCompose@1
+            displayName: Running all Microservices
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              dockerComposeFile: '**/docker-compose.yml'
+              action: Run services
