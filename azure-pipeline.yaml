@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  - VmImage: ubuntu-latest
+  VmImage: ubuntu-latest
 
 stages:
   - stage: Deployment 
